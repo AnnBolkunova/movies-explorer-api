@@ -12,7 +12,7 @@ const CommonError = require('./errors/CommonError');
 
 const app = express();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3005 } = process.env;
 
 // Выбор среды
 const config = dotenv.config({ path: NODE_ENV === 'production' ? '.env' : '.env.common' }).parsed;
