@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const { constants } = require('http2');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/limiter');
@@ -19,8 +20,8 @@ const config = dotenv.config({ path: NODE_ENV === 'production' ? '.env' : '.env.
 app.set('config', config);
 
 app.use(cors({
-  origin: '*',
-  allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Логгер запросов
@@ -42,7 +43,12 @@ app.use(limiter);
 app.use(errors());
 
 // Общий обработчик ошибок
-app.use(CommonError);
+app.use((err, req, res, next) => {
+    const status = err.statusCode || constants.HTTP_STATUS_INTERNAL_SERVER_ERROR;
+    const message = err.message || 'Неизвестная ошибка';
+    res.status(status).send({ message });
+    next();
+});
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
