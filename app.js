@@ -19,8 +19,8 @@ const config = dotenv.config({ path: NODE_ENV === 'production' ? '.env' : '.env.
 app.set('config', config);
 
 app.use(cors({
-    origin: '*',
-    allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: '*',
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Логгер запросов
@@ -42,7 +42,7 @@ app.use(limiter);
 app.use(errors());
 
 // Общий обработчик ошибок
-app.use(CommonError);
+app.use(CommonError());
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
