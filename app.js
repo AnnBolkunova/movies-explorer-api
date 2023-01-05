@@ -42,7 +42,7 @@ app.use(limiter);
 app.use(errors());
 
 // Общий обработчик ошибок
-app.use(CommonError());
+app.use(CommonError);
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
