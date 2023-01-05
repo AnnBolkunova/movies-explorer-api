@@ -9,7 +9,6 @@ const { constants } = require('http2');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/limiter');
-const CommonError = require('./errors/CommonError');
 
 const app = express();
 
