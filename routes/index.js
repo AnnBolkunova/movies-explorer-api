@@ -21,7 +21,7 @@ router.use('/users', userRouter);
 router.use('/movies', movieRouter);
 
 router.all('/*', (req, res, next) => {
-    next(new NotFoundError('Страница не найдена'));
+  next(new NotFoundError('Страница не найдена'));
 });
 
 module.exports = router;

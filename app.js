@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/limiter');
-const CommonError = require('./errors/CommonError');
+const commonErrorHandler = require('./middlewares/commonErrorHandler');
 
 const app = express();
 
@@ -42,8 +42,8 @@ app.use(limiter);
 app.use(errors());
 
 // Общий обработчик ошибок
-app.use(CommonError());
+app.use(commonErrorHandler);
 
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+  console.log(`App listening on port ${PORT}`);
 });
