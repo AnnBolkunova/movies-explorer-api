@@ -13,8 +13,7 @@ module.exports.auth = (req, res, next) => {
   let payload;
 
   try {
-    const { JWT_SECRET = 'dev-key' } = req.app.get('config');
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, 'super-secret-key');
   } catch (err) {
     throw (new UnauthorizedError('Необходима авторизация'));
   }
