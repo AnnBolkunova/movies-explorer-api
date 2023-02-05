@@ -1,4 +1,5 @@
-const dotenv = require('dotenv');
+require('dotenv').config();
+console.log(process.env.NODE_ENV);
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,11 +13,8 @@ const commonErrorHandler = require('./middlewares/commonErrorHandler');
 
 const app = express();
 
-const { NODE_ENV, PORT = 3011 } = process.env;
-
-// Выбор среды
-const config = dotenv.config({ path: NODE_ENV === 'production' ? '.env' : '.env.common' }).parsed;
-app.set('config', config);
+const { NODE_ENV, DB_URL } = process.env;
+const { PORT = 3011 } = process.env;
 
 app.use(cors({
   origin: '*',
@@ -30,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Подключение к БД
-mongoose.connect(config.DB_URL);
+mongoose.connect(NODE_ENV === 'production' ? DB_URL : 'mongodb://localhost:27017/moviesdb');
 
 app.use(router);
 
