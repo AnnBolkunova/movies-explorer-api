@@ -22,7 +22,12 @@ module.exports.createUser = (req, res, next) => {
     .then((document) => {
       const user = document.toObject();
       delete user.password;
-      res.status(STATUS_CREATED).send(user);
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'super-secret-key',
+        { expiresIn: '7d' },
+      );
+      res.send({ token });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
